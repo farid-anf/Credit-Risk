@@ -45,16 +45,16 @@ The dataset contains 1,000 entries and 11 columns. Here's a summary:
 - **Target Variable**: "Risk" is the classification target.
 
 ### Next Steps:
-1. **Clean the Data**:
+1. **Cleaning the Data**:
    - Handling missing values.
    - Dropping the unnecessary "Unnamed: 0" column.
    - Encoding categorical variables.
 
-2. **Exploratory Data Analysis**:
+2. **Exploratoring Data Analysis**:
    - Visualizing the distribution of features.
    - Investigating correlations with the target variable.
 
-3. **Build Machine Learning Model**:
+3. **Building Machine Learning Model**:
    - Using ensemble methods (e.g., Random Forest, XGBoost) for classification.
 
 
@@ -68,10 +68,10 @@ The dataset contains 1,000 entries and 11 columns. Here's a summary:
 - **Good Risk**: 700 instances.
 - **Bad Risk**: 300 instances (imbalanced target distribution).
 
-### Visualization:
+
 The "Risk" variable shows an imbalance, with "good" being more common. This imbalance might need addressing in the machine learning phase using techniques like oversampling or adjusting class weights.
 
-Next, let's explore feature relationships and build a machine learning model.
+Next, we explore feature relationships and build a machine learning model.
 
 ```Python
 import matplotlib.pyplot as plt
