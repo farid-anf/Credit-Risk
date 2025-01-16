@@ -4,8 +4,6 @@
 
 Credit risk assessment is a cornerstone of financial risk management, enabling institutions to evaluate the likelihood of borrower default and potential financial losses. This project addresses credit risk by computing key metrics—**Probability of Default (PD)**, **Loss Given Default (LGD)**, and **Exposure at Default (EAD)**—from a real-world dataset and developing machine learning models to classify borrowers into risk categories.  
 
-The analysis begins with the calculation of PD as the proportion of borrowers flagged as "bad" in the dataset. LGD is estimated using simulated recovery rates due to the absence of recovery amount data, while EAD is derived from loan amounts of defaulted borrowers. These metrics provide actionable insights into credit risk and inform downstream predictive modeling.  
-
 For risk classification, an ensemble of machine learning models was implemented, including Random Forest, XGBoost, and a Deep Learning neural network. The dataset underwent comprehensive preprocessing, including handling missing values, encoding categorical variables, and balancing class distribution using SMOTE. Model performance was evaluated using accuracy, F1-score, and ROC AUC, with an ensemble approach combining predictions for improved robustness and accuracy.  
 
 The results demonstrate the efficacy of combining domain-specific metrics with advanced machine learning techniques in assessing and managing credit risk. This work underscores the potential of integrating traditional risk management frameworks with modern data-driven methods to enhance predictive accuracy and decision-making in financial services.
