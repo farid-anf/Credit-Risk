@@ -306,6 +306,21 @@ weighted avg       0.75      0.76      0.75       200
 
 ```
 ### Senario and Stress Testing
+
+To simulate the effect of a financial downturn on your credit risk model, a stress test can help assess how well the model performs under such conditions. This can involve adjusting the features and labels to reflect a downturn scenario or introducing synthetic data that mimics a financial crisis.
+
+Here are a few steps to conduct a stress test on your model during a financial downturn:
+
+### **Simulate a Financial Downturn Scenario:**
+   - **Adjust the Feature Distributions:**
+     - **Age:** During financial downturns, younger people might have more difficulty finding stable jobs, and older people might have reduced savings. You can adjust the distribution of the `Age` feature to represent these changes.
+     - **Credit Amount and Duration:** In a financial crisis, the credit amounts requested might be smaller, and the duration of loans could shorten as lenders become more cautious.
+     - **Savings and Checking Accounts:** Customers may have lower savings or reduced balances in checking accounts during a downturn.
+     - **Job and Housing:** Job loss rates may rise, affecting job stability. Housing status may also change as more people face eviction or downsizing.
+   - **Simulate Higher Risk:** Increase the proportion of instances classified as high-risk (`Risk` feature) to reflect increased default rates during a downturn.
+
+We perform an stress test on Saving and Checking acounts, and credit amount and its duration. 
+
 ```Python
 import numpy as np
 import pandas as pd
@@ -345,3 +360,11 @@ ensemble_probs_stress_test = ensemble_model.predict_proba(X_stress_test_scaled)[
 print(y_stress_test.sum())
 print(ensemble_preds_stress_test.sum())
 ```
+
+
+**Credit Risk Simulation during this Financial Downturn:**
+
+During a financial downturn, the probability of defaults on loans and credit applications significantly increases. In this scenario, a stress test has been conducted on the credit risk model, simulating the impact of a downturn by modifying key features, such as savings accounts, checking accounts, credit amounts, and loan durations. The adjustments reflect the real-world behavior of individuals in such periods — reduced savings, increased borrowing demand, and shortened loan durations, as well as a rise in the number of high-risk applicants.
+
+As expected, the model reveals that under these stressed conditions, the risk of defaults escalates sharply. The results of the stress test show that nearly 90 percent of applicants could be classified as high-risk or defaulting. This figure underscores the critical impact a financial downturn has on loan performance and highlights the importance of adjusting risk models to account for these extreme conditions. The model's prediction aligns with real-world data, where defaults often rise sharply during periods of economic hardship, making accurate forecasting and risk mitigation strategies more important than ever.
+
