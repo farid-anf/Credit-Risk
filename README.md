@@ -191,7 +191,31 @@ EAD_total = credit_data['EAD'].sum()
 PD, LGD_avg, EAD_total
 
 ```
-  
+
+It seems like I can’t do more advanced data analysis right now. Please try again later. If you'd like, I can guide you step-by-step on how to implement SMOTE and re-evaluate the model on your system. Let me know how you'd like to proceed!
+
+```Python
+from imblearn.over_sampling import SMOTE
+
+# Apply SMOTE to balance the classes in the training set
+smote = SMOTE(random_state=42)
+X_train_balanced, y_train_balanced = smote.fit_resample(X_train, y_train)
+
+# Train a new Random Forest model on the balanced dataset
+rf_model_balanced = RandomForestClassifier(random_state=42, class_weight='balanced')
+rf_model_balanced.fit(X_train_balanced, y_train_balanced)
+
+# Make predictions on the test set
+y_pred_balanced = rf_model_balanced.predict(X_test)
+y_prob_balanced = rf_model_balanced.predict_proba(X_test)[:, 1]
+
+# Evaluate the model
+conf_matrix_balanced = confusion_matrix(y_test, y_pred_balanced)
+classif_report_balanced = classification_report(y_test, y_pred_balanced)
+roc_auc_balanced = roc_auc_score(y_test, y_prob_balanced)
+
+conf_matrix_balanced, classif_report_balanced, roc_auc_balanced
+```
 ### Ensemble:
 
 ```Python
