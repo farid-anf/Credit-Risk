@@ -10,14 +10,14 @@ The results demonstrate the efficacy of combining domain-specific metrics with a
 
 ### Fetching Data
 ```Python
-# Load and inspect the dataset to understand its structure and contents.
+# Loading and inspecting the dataset to understand its structure and contents.
 import pandas as pd
 
-# Load the uploaded file
+# Loading the uploaded file
 file_path = '.../german_credit_data.csv'
 credit_data = pd.read_csv(file_path)
 
-# Display the first few rows and dataset information
+# Displaying the first few rows and dataset information
 credit_data_info = credit_data.info()
 credit_data_head = credit_data.head()
 
@@ -46,20 +46,16 @@ The dataset contains 1,000 entries and 11 columns. Here's a summary:
 
 ### Next Steps:
 1. **Clean the Data**:
-   - Handle missing values.
-   - Drop the unnecessary "Unnamed: 0" column.
-   - Encode categorical variables.
+   - Handling missing values.
+   - Dropping the unnecessary "Unnamed: 0" column.
+   - Encoding categorical variables.
 
 2. **Exploratory Data Analysis**:
-   - Visualize the distribution of features.
-   - Investigate correlations with the target variable.
+   - Visualizing the distribution of features.
+   - Investigating correlations with the target variable.
 
 3. **Build Machine Learning Model**:
-   - Use ensemble methods (e.g., Random Forest, XGBoost) for classification.
-
-Let me clean the data and start the analysis.
-
-![image](image1)
+   - Using ensemble methods (e.g., Random Forest, XGBoost) for classification.
 
 
 ### Summary Statistics:
