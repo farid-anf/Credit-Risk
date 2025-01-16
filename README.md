@@ -286,26 +286,18 @@ conf_matrix_ensemble, classif_report_ensemble, roc_auc_ensemble
 ```
 
 ```Python
-from imblearn.over_sampling import SMOTE
+[[118  22]
+ [ 27  33]]
+              precision    recall  f1-score   support
 
-# Apply SMOTE to balance the classes in the training set
-smote = SMOTE(random_state=42)
-X_train_balanced, y_train_balanced = smote.fit_resample(X_train, y_train)
+           0       0.81      0.84      0.83       140
+           1       0.60      0.55      0.57        60
 
-# Train a new Random Forest model on the balanced dataset
-rf_model_balanced = RandomForestClassifier(random_state=42, class_weight='balanced')
-rf_model_balanced.fit(X_train_balanced, y_train_balanced)
+    accuracy                           0.76       200
+   macro avg       0.71      0.70      0.70       200
+weighted avg       0.75      0.76      0.75       200
 
-# Make predictions on the test set
-y_pred_balanced = rf_model_balanced.predict(X_test)
-y_prob_balanced = rf_model_balanced.predict_proba(X_test)[:, 1]
-
-# Evaluate the model
-conf_matrix_balanced = confusion_matrix(y_test, y_pred_balanced)
-classif_report_balanced = classification_report(y_test, y_pred_balanced)
-roc_auc_balanced = roc_auc_score(y_test, y_prob_balanced)
-
-conf_matrix_balanced, classif_report_balanced, roc_auc_balanced
+0.7527380952380952
 
 ```
 
