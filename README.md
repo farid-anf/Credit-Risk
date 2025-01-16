@@ -82,6 +82,37 @@ plt.show()
 summary_stats, risk_distribution
 ```
 
+
+```Python
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
+
+# Split the data into features (X) and target (y)
+X = credit_data_encoded.drop(columns=['Risk'])
+y = credit_data_encoded['Risk']
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+
+# Initialize a Random Forest classifier
+rf_model = RandomForestClassifier(random_state=42, class_weight='balanced')
+
+# Train the model
+rf_model.fit(X_train, y_train)
+
+# Make predictions
+y_pred = rf_model.predict(X_test)
+y_prob = rf_model.predict_proba(X_test)[:, 1]
+
+# Evaluate the model
+conf_matrix = confusion_matrix(y_test, y_pred)
+classif_report = classification_report(y_test, y_pred)
+roc_auc = roc_auc_score(y_test, y_prob)
+
+conf_matrix, classif_report, roc_auc
+```
+
 ### Model Evaluation:
 1. **Confusion Matrix**:
    - True Negatives (Good Risk correctly classified): 125
