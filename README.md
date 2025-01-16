@@ -77,14 +77,14 @@ Next, we explore feature relationships and build a machine learning model.
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Drop the unnecessary column
+# Dropping the unnecessary column
 credit_data = credit_data.drop(columns=['Unnamed: 0'])
 
-# Handle missing values: Replace NaN with 'unknown' for categorical columns
+# Handling missing values: Replacing NaN with 'unknown' for categorical columns
 credit_data['Saving accounts'] = credit_data['Saving accounts'].fillna('unknown')
 credit_data['Checking account'] = credit_data['Checking account'].fillna('unknown')
 
-# Encode categorical variables using one-hot encoding for features and label encoding for the target variable
+# Encoding categorical variables using one-hot encoding for features and label encoding for the target variable
 credit_data_encoded = pd.get_dummies(
     credit_data,
     columns=['Sex', 'Housing', 'Saving accounts', 'Checking account', 'Purpose'],
@@ -96,7 +96,7 @@ credit_data_encoded['Risk'] = credit_data['Risk'].map({'good': 0, 'bad': 1})
 summary_stats = credit_data.describe()
 risk_distribution = credit_data['Risk'].value_counts()
 
-# Visualize the distribution of Risk
+# Visualizing the distribution of Risk
 plt.figure(figsize=(6, 4))
 sns.countplot(x='Risk', data=credit_data, palette='coolwarm')
 plt.title('Distribution of Risk')
@@ -111,24 +111,24 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 
-# Split the data into features (X) and target (y)
+# Splitting the data into features (X) and target (y)
 X = credit_data_encoded.drop(columns=['Risk'])
 y = credit_data_encoded['Risk']
 
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
-# Initialize a Random Forest classifier
+# Initializing a Random Forest classifier
 rf_model = RandomForestClassifier(random_state=42, class_weight='balanced')
 
-# Train the model
+# Training the model
 rf_model.fit(X_train, y_train)
 
-# Make predictions
+# Making predictions
 y_pred = rf_model.predict(X_test)
 y_prob = rf_model.predict_proba(X_test)[:, 1]
 
-# Evaluate the model
+# Evaluating the model
 conf_matrix = confusion_matrix(y_test, y_pred)
 classif_report = classification_report(y_test, y_pred)
 roc_auc = roc_auc_score(y_test, y_prob)
@@ -167,30 +167,30 @@ conf_matrix, classif_report, roc_auc
 ```Python
 import numpy as np
 
-# Define defaulted borrowers
+# Defining defaulted borrowers
 credit_data['Default'] = (credit_data['Risk'] == 'bad').astype(int)
 
-# 1. Calculate Probability of Default (PD)
+# 1. Calculating Probability of Default (PD)
 total_borrowers = len(credit_data)
 defaulted_borrowers = credit_data['Default'].sum()
 PD = defaulted_borrowers / total_borrowers
 
-# 2. Simulate recovery rates (assume recovery between 30% and 70% of the credit amount)
+# 2. Simulating recovery rates (assume recovery between 30% and 70% of the credit amount)
 np.random.seed(42)
 credit_data['Recovery Rate'] = np.random.uniform(0.3, 0.7, size=total_borrowers)
 credit_data['Recovery Amount'] = credit_data['Credit amount'] * credit_data['Recovery Rate']
 
-# 3. Calculate Loss Given Default (LGD) for each borrower
+# 3. Calculating Loss Given Default (LGD) for each borrower
 credit_data['LGD'] = np.where(
     credit_data['Default'] == 1,
     (credit_data['Credit amount'] - credit_data['Recovery Amount']) / credit_data['Credit amount'],
     0
 )
 
-# 4. Exposure at Default (EAD) is simply the credit amount for defaulted borrowers
+# 4. Exposuring at Default (EAD) is simply the credit amount for defaulted borrowers
 credit_data['EAD'] = np.where(credit_data['Default'] == 1, credit_data['Credit amount'], 0)
 
-# Summarize results
+# Summarizing results
 LGD_avg = credit_data.loc[credit_data['Default'] == 1, 'LGD'].mean()
 EAD_total = credit_data['EAD'].sum()
 
@@ -198,31 +198,30 @@ PD, LGD_avg, EAD_total
 
 ```
 
-It seems like I can’t do more advanced data analysis right now. Please try again later. If you'd like, I can guide you step-by-step on how to implement SMOTE and re-evaluate the model on your system. Let me know how you'd like to proceed!
 
 ```Python
 from imblearn.over_sampling import SMOTE
 
-# Apply SMOTE to balance the classes in the training set
+# Appling SMOTE to balance the classes in the training set
 smote = SMOTE(random_state=42)
 X_train_balanced, y_train_balanced = smote.fit_resample(X_train, y_train)
 
-# Train a new Random Forest model on the balanced dataset
+# Training a new Random Forest model on the balanced dataset
 rf_model_balanced = RandomForestClassifier(random_state=42, class_weight='balanced')
 rf_model_balanced.fit(X_train_balanced, y_train_balanced)
 
-# Make predictions on the test set
+# Making predictions on the test set
 y_pred_balanced = rf_model_balanced.predict(X_test)
 y_prob_balanced = rf_model_balanced.predict_proba(X_test)[:, 1]
 
-# Evaluate the model
+# Evaluating the model
 conf_matrix_balanced = confusion_matrix(y_test, y_pred_balanced)
 classif_report_balanced = classification_report(y_test, y_pred_balanced)
 roc_auc_balanced = roc_auc_score(y_test, y_prob_balanced)
 
 conf_matrix_balanced, classif_report_balanced, roc_auc_balanced
 ```
-### Ensemble:
+### Ensemble Method:
 
 ```Python
 from sklearn.ensemble import VotingClassifier
@@ -233,16 +232,16 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.optimizers import Adam
 from sklearn.preprocessing import StandardScaler
 
-# Standardize the features for the deep learning model
+# Standardizing the features for the deep learning model
 scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train_balanced)
 X_test_scaled = scaler.transform(X_test)
 
-# Convert labels to categorical for deep learning
+# Converting labels to categorical for deep learning
 y_train_dl = to_categorical(y_train_balanced, num_classes=2)
 y_test_dl = to_categorical(y_test, num_classes=2)
 
-# Build the deep learning model
+# Building the deep learning model
 dl_model = Sequential([
     Dense(64, activation='relu', input_dim=X_train_scaled.shape[1]),
     Dropout(0.3),
@@ -253,14 +252,14 @@ dl_model = Sequential([
 
 dl_model.compile(optimizer=Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
 
-# Train the deep learning model
+# Training the deep learning model
 dl_model.fit(X_train_scaled, y_train_dl, epochs=20, batch_size=32, verbose=0, validation_split=0.2)
 
-# Evaluate the deep learning model
+# Evaluating the deep learning model
 dl_probs = dl_model.predict(X_test_scaled)[:, 1]
 dl_preds = (dl_probs > 0.5).astype(int)
 
-# Train the XGBoost model
+# Training the XGBoost model
 xgb_model = XGBClassifier(random_state=42, use_label_encoder=False, eval_metric='logloss')
 xgb_model.fit(X_train_balanced, y_train_balanced)
 
@@ -279,11 +278,11 @@ ensemble_model = VotingClassifier(
 )
 ensemble_model.fit(X_train_balanced, y_train_balanced)
 
-# Ensemble predictions
+# Ensembling predictions
 ensemble_probs = ensemble_model.predict_proba(X_test)[:, 1]
 ensemble_preds = ensemble_model.predict(X_test)
 
-# Evaluate ensemble model
+# Evaluating ensemble model
 conf_matrix_ensemble = confusion_matrix(y_test, ensemble_preds)
 classif_report_ensemble = classification_report(y_test, ensemble_preds)
 roc_auc_ensemble = roc_auc_score(y_test, ensemble_probs)
