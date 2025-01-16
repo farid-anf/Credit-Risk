@@ -1,3 +1,20 @@
+### Fetching Data
+```Python
+# Load and inspect the dataset to understand its structure and contents.
+import pandas as pd
+
+# Load the uploaded file
+file_path = '/mnt/data/german_credit_data.csv'
+credit_data = pd.read_csv(file_path)
+
+# Display the first few rows and dataset information
+credit_data_info = credit_data.info()
+credit_data_head = credit_data.head()
+
+credit_data_info, credit_data_head
+```
+
+
 The dataset contains 1,000 entries and 11 columns. Here's a summary:
 
 ### Columns:
