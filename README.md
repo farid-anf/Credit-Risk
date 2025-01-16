@@ -305,4 +305,43 @@ weighted avg       0.75      0.76      0.75       200
 0.7527380952380952
 
 ```
+### Senario and Stress Testing
+```Python
+import numpy as np
+import pandas as pd
 
+# Create a copy of the X_test to simulate the downturn
+X_stress_test = X_test.copy()
+
+# Adjust 'Saving accounts' columns to reflect a downturn (increase 'unknown', decrease other categories)
+X_stress_test['Saving accounts_unknown'] += np.random.uniform(0.1, 0.3, size=X_stress_test.shape[0])  # Increase 'unknown' accounts
+X_stress_test['Saving accounts_moderate'] *= np.random.uniform(0.7, 0.9, size=X_stress_test.shape[0])  # Decrease moderate savings
+X_stress_test['Saving accounts_quite rich'] *= np.random.uniform(0.5, 0.7, size=X_stress_test.shape[0])  # Decrease quite rich savings
+X_stress_test['Saving accounts_rich'] *= np.random.uniform(0.2, 0.4, size=X_stress_test.shape[0])  # Decrease rich savings
+
+# Adjust 'Checking account' columns to reflect a downturn (increase 'unknown', decrease other categories)
+X_stress_test['Checking account_unknown'] += np.random.uniform(0.1, 0.3, size=X_stress_test.shape[0])  # Increase 'unknown' accounts
+X_stress_test['Checking account_moderate'] *= np.random.uniform(0.7, 0.9, size=X_stress_test.shape[0])  # Decrease moderate checking
+X_stress_test['Checking account_rich'] *= np.random.uniform(0.4, 0.6, size=X_stress_test.shape[0])  # Decrease rich checking
+
+# Modify other features to reflect downturn (e.g., higher credit amounts, shorter durations)
+X_stress_test['Credit amount'] *= np.random.uniform(1.0, 1.5, size=X_stress_test.shape[0])  # Increase credit demand
+X_stress_test['Duration'] *= np.random.uniform(0.8, 1.2, size=X_stress_test.shape[0])  # Shorten durations
+
+# Simulate increased risk during a downturn (e.g., more defaults)
+y_stress_test = y_test.copy()
+y_stress_test[:] = np.random.choice([1, 0], size=X_stress_test.shape[0], p=[0.7, 0.3])  # Increase high-risk instances
+
+# Standardize and evaluate the model on the stress-test data
+X_stress_test_scaled = scaler.transform(X_stress_test)
+
+# Evaluate the ensemble model on stress-test data
+ensemble_preds_stress_test = ensemble_model.predict(X_stress_test_scaled)
+ensemble_probs_stress_test = ensemble_model.predict_proba(X_stress_test_scaled)[:, 1]
+
+
+
+
+print(y_stress_test.sum())
+print(ensemble_preds_stress_test.sum())
+```
