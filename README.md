@@ -1,3 +1,7 @@
+## Summary:
+
+This project focuses on analyzing credit risk using a publicly available dataset of borrowers. The primary objectives are to compute the critical risk metrics (PD, LGD, and EAD) and develop a machine learning model to classify borrowers into "good" or "bad" credit risk categories.
+
 ### Fetching Data
 ```Python
 # Load and inspect the dataset to understand its structure and contents.
