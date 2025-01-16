@@ -4,7 +4,7 @@
 import pandas as pd
 
 # Load the uploaded file
-file_path = '/mnt/data/german_credit_data.csv'
+file_path = '.../german_credit_data.csv'
 credit_data = pd.read_csv(file_path)
 
 # Display the first few rows and dataset information
