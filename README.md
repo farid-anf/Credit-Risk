@@ -8,13 +8,6 @@ For risk classification, an ensemble of machine learning models was implemented,
 
 The results demonstrate the efficacy of combining domain-specific metrics with advanced machine learning techniques in assessing and managing credit risk. This work underscores the potential of integrating traditional risk management frameworks with modern data-driven methods to enhance predictive accuracy and decision-making in financial services.
 
-
-
-
-## Summary:
-
-This project focuses on analyzing credit risk using a publicly available dataset of borrowers. The primary objectives are to compute the critical risk metrics (PD, LGD, and EAD) and develop a machine learning model to classify borrowers into "good" or "bad" credit risk categories.
-
 ### Fetching Data
 ```Python
 # Load and inspect the dataset to understand its structure and contents.
