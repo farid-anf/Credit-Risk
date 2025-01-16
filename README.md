@@ -140,6 +140,40 @@ conf_matrix, classif_report, roc_auc
 - The model performs better in predicting "Good Risk" compared to "Bad Risk," likely due to class imbalance.
 - Precision for "Bad Risk" is moderate, but recall is lower, meaning some "Bad Risk" instances are being missed.
 - The overall ROC AUC score indicates the model captures discriminatory power between the two classes but can be improved.
+
+```Python
+import numpy as np
+
+# Define defaulted borrowers
+credit_data['Default'] = (credit_data['Risk'] == 'bad').astype(int)
+
+# 1. Calculate Probability of Default (PD)
+total_borrowers = len(credit_data)
+defaulted_borrowers = credit_data['Default'].sum()
+PD = defaulted_borrowers / total_borrowers
+
+# 2. Simulate recovery rates (assume recovery between 30% and 70% of the credit amount)
+np.random.seed(42)
+credit_data['Recovery Rate'] = np.random.uniform(0.3, 0.7, size=total_borrowers)
+credit_data['Recovery Amount'] = credit_data['Credit amount'] * credit_data['Recovery Rate']
+
+# 3. Calculate Loss Given Default (LGD) for each borrower
+credit_data['LGD'] = np.where(
+    credit_data['Default'] == 1,
+    (credit_data['Credit amount'] - credit_data['Recovery Amount']) / credit_data['Credit amount'],
+    0
+)
+
+# 4. Exposure at Default (EAD) is simply the credit amount for defaulted borrowers
+credit_data['EAD'] = np.where(credit_data['Default'] == 1, credit_data['Credit amount'], 0)
+
+# Summarize results
+LGD_avg = credit_data.loc[credit_data['Default'] == 1, 'LGD'].mean()
+EAD_total = credit_data['EAD'].sum()
+
+PD, LGD_avg, EAD_total
+
+```
   
 ### Ensemble:
 
